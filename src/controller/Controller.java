@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import externalConnections.*;
+import externalConnections.exceptions.ItemNotFoundException;
 import handler.*;
 import model.*;
 import view.TotalRevenueView;
@@ -47,7 +48,12 @@ public class Controller
 	
 	public void addItem(Input userInput)
 	{
-		saleIterator.addItem(userInput);
+		try {
+			saleIterator.addItem(userInput);
+		} catch (ItemNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static ItemsInStore getItemsInStore()

@@ -1,5 +1,6 @@
 package externalConnections;
 import java.util.ArrayList;
+import externalConnections.exceptions.*;
 import model.Item;
 
 public class ItemsInStore 
@@ -61,9 +62,23 @@ public class ItemsInStore
 	// This method will return the first occurrence of item having this @identifier 
 	public Item getItem(int identifier)
 	{
-		int position = getIdPosition(identifier);
-		Item itemToReturn = new Item ((Item) list.get(position));
-		return itemToReturn;////.copyItem((Item) list.get(position));
+		try
+		{
+			int position = getIdPosition(identifier);
+			Item itemToReturn = new Item ((Item) list.get(position));
+			return itemToReturn;////.copyItem((Item) list.get(position));
+		}
+		
+		catch(Exception e)
+		{
+			try {
+				throw new ItemNotFoundException();
+			} catch (ItemNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				return null;
+			}
+		}
 	}
 	
 	//This method will return the position of first occurrence of item having this @identifier 

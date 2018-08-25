@@ -1,8 +1,10 @@
 package handler;
 import java.util.ArrayList;
+import handler.exceptions.*;
 import model.Sale;
 import model.Item;
 import externalConnections.*;
+import externalConnections.exceptions.ItemNotFoundException;
 import controller.Controller;
 
 public class SaleIterator 
@@ -22,15 +24,28 @@ public class SaleIterator
 		displayGrabber = Controller.getDisplayGrabber();
 	}
 	
-	public void addItem(Input input)
+	public void addItem(Input input) throws ItemNotFoundException
 	{
 		for(int i = 0; i < input.getQuantity(); i++)
 		{
 
-			Item newItem = itemsInStore.getItem(input.getId());
-			customersList.add(newItem);
-			displayGrabber.addNewPrice(newItem.getPrice());
-			itemsInStore.delete(newItem);
+			try
+			{
+				if (itemsInStore.getList().isEmpty())
+				{
+					throw new DbFailureException();
+				}
+
+				Item newItem = itemsInStore.getItem(input.getId());
+				customersList.add(newItem);
+				displayGrabber.addNewPrice(newItem.getPrice());
+				itemsInStore.delete(newItem);
+			}
+			
+			catch(DbFailureException dbFailed)
+			{
+				return;
+			}
 			
 		}
 	}
