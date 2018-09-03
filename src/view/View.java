@@ -24,7 +24,7 @@ public class View
 			if(user.isEmpty())
 			{
 				startSale();
-				if (paid())
+				if (!controller.getCustomersList().isEmpty() && paid())
 				{
 					System.out.println("Thank you for your purchase. Here is your receit");
 					printList(controller.getCustomersList());
