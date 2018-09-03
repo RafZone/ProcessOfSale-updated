@@ -49,4 +49,15 @@ public class SaleIterator
 			
 		}
 	}
+	
+	public void cancel()
+	{
+		Object [] customersListArray = customersList.toArray();
+		for (int i = 0; i < customersListArray.length; i++)
+		{
+			Item item = (Item) customersListArray[i];
+			itemsInStore.add(item);
+			customersList.remove(item);
+		}
+	}
 }

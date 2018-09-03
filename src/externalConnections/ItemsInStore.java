@@ -116,4 +116,9 @@ public class ItemsInStore
 	{
 		list.remove(item);
 	}
+	
+	public void add(Item item)
+	{
+		list.add(item);
+	}
 }

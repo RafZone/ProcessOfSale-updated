@@ -31,6 +31,7 @@ public class View
 				}
 				else
 				{
+					controller.cancel();
 					System.out.println("Your purchase is canceled. Thank you for your visit");
 				}
 			}

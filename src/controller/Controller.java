@@ -75,4 +75,9 @@ public class Controller
 	{
 		return payment.getTotal();
 	}
+	
+	public void cancel()
+	{
+		saleIterator.cancel();
+	}
 }
