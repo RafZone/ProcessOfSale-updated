@@ -4,7 +4,8 @@ import handler.exceptions.*;
 import model.Sale;
 import model.Item;
 import externalConnections.*;
-import externalConnections.exceptions.ItemNotFoundException;
+import externalConnections.exceptions.*;
+import externalConnections.exceptions.DbFailureException;
 import controller.Controller;
 
 public class SaleIterator 
@@ -25,29 +26,19 @@ public class SaleIterator
 		displayGrabber.resetPrice();
 	}
 	
-	public void addItem(Input input) throws ItemNotFoundException
+	public void addItem(Input input) throws ItemNotFoundException, DbFailureException
 	{
+		if (itemsInStore.getList().isEmpty())
+		{
+			throw new DbFailureException();
+		}
 		for(int i = 0; i < input.getQuantity(); i++)
 		{
 
-			try
-			{
-				if (itemsInStore.getList().isEmpty())
-				{
-					throw new DbFailureException();
-				}
-
-				Item newItem = itemsInStore.getItem(input.getId());
-				customersList.add(newItem);
-				displayGrabber.addNewPrice(newItem.getPrice());
-				itemsInStore.delete(newItem);
-			}
-			
-			catch(DbFailureException dbFailed)
-			{
-				return;
-			}
-			
+			Item newItem = itemsInStore.getItem(input.getId());
+			customersList.add(newItem);
+			displayGrabber.addNewPrice(newItem.getPrice());
+			itemsInStore.delete(newItem);
 		}
 	}
 	

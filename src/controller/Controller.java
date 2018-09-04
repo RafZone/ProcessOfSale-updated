@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import externalConnections.*;
 import externalConnections.exceptions.ItemNotFoundException;
+import externalConnections.exceptions.DbFailureException;
 import handler.*;
 import model.*;
 import view.TotalRevenueView;
@@ -34,19 +35,19 @@ public class Controller
 		payment = new Payment(sale.getCustomersList());
 	}
 	
-	public boolean validate(Input input) throws ItemNotFoundException
+	public boolean validate(Input input) throws ItemNotFoundException, DbFailureException
 	{
 		return itemsInStore.validate(input.getId(), input.getQuantity());
 	}
 	
-	public Item getItem(Input input) throws ItemNotFoundException
+	public Item getItem(Input input) throws ItemNotFoundException, DbFailureException
 	{
 		Item item;
 		item = itemsInStore.getItem(input.getId());
 		return item;
 	}
 	
-	public void addItem(Input userInput) throws ItemNotFoundException
+	public void addItem(Input userInput) throws ItemNotFoundException, DbFailureException
 	{
 		saleIterator.addItem(userInput);
 	}

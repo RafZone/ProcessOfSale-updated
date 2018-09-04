@@ -36,8 +36,10 @@ public class ItemsInStore
 		return list;
 	}
 	
-	public boolean validate(int idToValidate) 
+	public boolean validate(int idToValidate) throws DbFailureException
 	{
+		if (list.isEmpty())
+			throw new DbFailureException();
 		Object[] listArray = list.toArray();
 		try
 		{
@@ -60,16 +62,16 @@ public class ItemsInStore
 	}
 	
 	// This method will return the first occurrence of item having this @identifier 
-	public Item getItem(int identifier) throws ItemNotFoundException
+	public Item getItem(int identifier) throws ItemNotFoundException, DbFailureException
 	{
 		
-			if (!validate(identifier))
-			{
-				throw new ItemNotFoundException();
-			}
-			int position = getIdPosition(identifier);
-			Item itemToReturn = new Item ((Item) list.get(position));
-			return itemToReturn;////.copyItem((Item) list.get(position));
+		if (!validate(identifier))
+		{
+			throw new ItemNotFoundException();
+		}
+		int position = getIdPosition(identifier);
+		Item itemToReturn = new Item ((Item) list.get(position));
+		return itemToReturn;////.copyItem((Item) list.get(position));
 		
 	}
 	
@@ -90,7 +92,7 @@ public class ItemsInStore
 	
 	//This method is used to check if an item is present at the database using @idToValidate
 	//@idToValidate and @quantityToValidate is to see if there are enough items at the store
-	public boolean validate (int idToValidate, int quantityToValidate) throws ItemNotFoundException
+	public boolean validate (int idToValidate, int quantityToValidate) throws ItemNotFoundException, DbFailureException
 	{
 		boolean validId = validate(idToValidate);
 		if (validId)
@@ -104,7 +106,7 @@ public class ItemsInStore
 	}
 	
 	//this method is used to delete an item from the store database once the customer buys the @item
-	public void delete(Item item) throws ItemNotFoundException
+	public void delete(Item item) throws ItemNotFoundException, DbFailureException
 	{
 		if(!validate(item.getIdentifier()))
 			throw new ItemNotFoundException();
