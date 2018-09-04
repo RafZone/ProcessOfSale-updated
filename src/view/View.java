@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import controller.Controller;
+import externalConnections.exceptions.ItemNotFoundException;
 import handler.Input;
 import model.Item;
 
@@ -54,15 +55,20 @@ public class View
 		{
 			//This is a very important section because if we do not use the conditional
 			//statement and we have a false input, the program would crash
-			if (controller.validate(userInput))
-			{
-				System.out.println("The following Item(s) has been added x" + userInput.getQuantity());
-				printItem(controller.getItem(userInput));
-				controller.addItem(userInput);
-			}
-			else
-			{
-				System.out.println("The identifier could not be found.");
+			try {
+				if (controller.validate(userInput))
+				{
+					System.out.println("The following Item(s) has been added x" + userInput.getQuantity());
+					printItem(controller.getItem(userInput));
+					controller.addItem(userInput);
+				}
+				else
+				{
+					System.out.println("The identifier could not be found.");
+				}
+			} catch (ItemNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println("The Item is not Found.");
 			}
 		}
 	}

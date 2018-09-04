@@ -22,6 +22,7 @@ public class SaleIterator
 		itemsInStore = Controller.getItemsInStore();
 		customersList = sale.getCustomersList();
 		displayGrabber = Controller.getDisplayGrabber();
+		displayGrabber.resetPrice();
 	}
 	
 	public void addItem(Input input) throws ItemNotFoundException

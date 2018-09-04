@@ -20,11 +20,11 @@ public class Controller
 	{
 		itemsInStore = new ItemsInStore();
 		displayGrabber = new DisplayGrabber();
+		display = new TotalRevenueView(displayGrabber);
 	}
 	
 	public void startSale()
 	{
-		display = new TotalRevenueView(displayGrabber);
 		sale = new Sale();
 		saleIterator = new SaleIterator(sale);
 	}
@@ -34,26 +34,21 @@ public class Controller
 		payment = new Payment(sale.getCustomersList());
 	}
 	
-	public boolean validate(Input input)
+	public boolean validate(Input input) throws ItemNotFoundException
 	{
 		return itemsInStore.validate(input.getId(), input.getQuantity());
 	}
 	
-	public Item getItem(Input input)
+	public Item getItem(Input input) throws ItemNotFoundException
 	{
 		Item item;
 		item = itemsInStore.getItem(input.getId());
 		return item;
 	}
 	
-	public void addItem(Input userInput)
+	public void addItem(Input userInput) throws ItemNotFoundException
 	{
-		try {
-			saleIterator.addItem(userInput);
-		} catch (ItemNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		saleIterator.addItem(userInput);
 	}
 	
 	public static ItemsInStore getItemsInStore()

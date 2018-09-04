@@ -60,25 +60,17 @@ public class ItemsInStore
 	}
 	
 	// This method will return the first occurrence of item having this @identifier 
-	public Item getItem(int identifier)
+	public Item getItem(int identifier) throws ItemNotFoundException
 	{
-		try
-		{
+		
+			if (!validate(identifier))
+			{
+				throw new ItemNotFoundException();
+			}
 			int position = getIdPosition(identifier);
 			Item itemToReturn = new Item ((Item) list.get(position));
 			return itemToReturn;////.copyItem((Item) list.get(position));
-		}
 		
-		catch(Exception e)
-		{
-			try {
-				throw new ItemNotFoundException();
-			} catch (ItemNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				return null;
-			}
-		}
 	}
 	
 	//This method will return the position of first occurrence of item having this @identifier 
@@ -98,7 +90,7 @@ public class ItemsInStore
 	
 	//This method is used to check if an item is present at the database using @idToValidate
 	//@idToValidate and @quantityToValidate is to see if there are enough items at the store
-	public boolean validate (int idToValidate, int quantityToValidate)
+	public boolean validate (int idToValidate, int quantityToValidate) throws ItemNotFoundException
 	{
 		boolean validId = validate(idToValidate);
 		if (validId)
@@ -112,12 +104,14 @@ public class ItemsInStore
 	}
 	
 	//this method is used to delete an item from the store database once the customer buys the @item
-	public void delete(Item item)
+	public void delete(Item item) throws ItemNotFoundException
 	{
+		if(!validate(item.getIdentifier()))
+			throw new ItemNotFoundException();
 		list.remove(item);
 	}
 	
-	public void add(Item item)
+	public void add(Item item) 
 	{
 		list.add(item);
 	}

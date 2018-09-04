@@ -41,4 +41,9 @@ public class DisplayGrabber implements Subject
 		runningTotal = runningTotal + newPrice;
 		notifyObserver();
 	}
+	
+	public void resetPrice()
+	{
+		runningTotal = 0;
+	}
 }
